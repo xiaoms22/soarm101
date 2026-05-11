@@ -2,6 +2,9 @@
 data/
 models/
 
+# 含凭据的本地文件，禁止上传
+docs/laptop-ai-prompt.md
+
 # Python
 __pycache__/
 *.py[cod]
