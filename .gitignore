@@ -1,0 +1,33 @@
+# 数据与模型（本地大文件，不纳入版本控制）
+data/
+models/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+*.egg
+
+# 环境变量
+.env
+.env.*
+
+# Jupyter
+.ipynb_checkpoints/
+
+# 编辑器
+.vscode/settings.json
+.idea/
+*.swp
+
+# 系统
+.DS_Store
+Thumbs.db
+
+# LeRobot 产出
+outputs/
+wandb/
