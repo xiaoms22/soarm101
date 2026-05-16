@@ -1,1 +1,8 @@
-lerobot
+lerobot>=0.5.1
+huggingface_hub
+opencv-python
+pandas
+numpy
+pillow
+av
+pyyaml
