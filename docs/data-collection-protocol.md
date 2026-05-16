@@ -39,7 +39,8 @@ Pick up object and Put down in box
 
 - **型号**：SO-ARM101 follower arm
 - **自由度**：6 DOF（状态向量维度 = 6，动作向量维度 = 6）
-- **串口**：需确认实际端口（Linux 通常为 `/dev/ttyACM0` 或 `/dev/ttyACM1`）
+- **当前项目串口**：follower=`COM3`，leader=`COM4`
+- **跨平台说明**：Linux 通常为 `/dev/ttyACM0` 或 `/dev/ttyACM1`，采集前必须按实际硬件确认。
 
 ---
 
@@ -62,7 +63,7 @@ action                   → shape [6]   — 6 个关节目标角度
 | `dataset.video` | `true` | 存储为视频格式 |
 | `dataset.streaming_encoding` | `true` | 实时编码减少磁盘 IO |
 | `dataset.encoder_threads` | `2` | 编码线程数 |
-| `dataset.vcodec` | `auto` | 自动选择编解码器 |
+| `dataset.vcodec` | `h264` | 当前笔记本使用 CPU 编码，避免无 NVIDIA GPU 时触发 `nvcuda.dll` 错误 |
 | `dataset.push_to_hub` | `false` | 本地保存，不自动上传 |
 
 ---
@@ -82,11 +83,11 @@ action                   → shape [6]   — 6 个关节目标角度
 ### 采集步骤
 
 ```
-第一步：left-pilot（5-10 条）
+第一步：left-pilot / left-final-pilot（5-10 条）
   → 验证采集质量和 release 语义是否清晰
   → 用 5 条快速训练验证模型能否稳定 release
 
-第二步：left-full（扩展到 33 条）
+第二步：left-final（扩展到 33-50 条）
   → 只有 pilot 验证通过再继续
 
 第三步：根据 left 经验扩展 center / right
@@ -174,11 +175,11 @@ release 是**最关键的阶段**，建议有意识地放慢操作：
 ```bash
 lerobot-record \
   --robot.type=so101_follower \
-  --robot.port=/dev/ttyACM0 \                          # ← 修改为实际串口
+  --robot.port=COM3 \                                  # ← 修改为实际 follower 串口
   --robot.id=my_so101_follower \
   --robot.disable_torque_on_disconnect=false \
   --robot.cameras="{ \
-    fixed: {type: opencv, index_or_path: 4, width: 640, height: 480, fps: 30}, \
+    fixed: {type: opencv, index_or_path: 0, width: 640, height: 480, fps: 30}, \
     handeye: {type: opencv, index_or_path: 2, width: 640, height: 480, fps: 30} \
   }" \                                                 # ← 修改 index_or_path 为实际相机编号
   --dataset.single_task="Pick up object and Put down in box" \
@@ -186,12 +187,12 @@ lerobot-record \
   --dataset.video=true \
   --dataset.streaming_encoding=true \
   --dataset.encoder_threads=2 \
-  --dataset.vcodec=auto \
+  --dataset.vcodec=h264 \
   --dataset.episode_time_s=30 \                        # ← 单 episode 最长时间（秒）
   --dataset.reset_time_s=10 \                          # ← 两条 episode 间 reset 时间
   --dataset.num_episodes=10 \                          # ← pilot 阶段先录 10 条
   --dataset.push_to_hub=false \
-  --dataset.root=./data/so101-left-pilot              # ← 数据保存路径
+  --dataset.root=./data/so101-left-final-pilot        # ← 数据保存路径
 ```
 
 ### 如何确认相机编号
@@ -261,8 +262,8 @@ pilot（5-10 条）完成后，用以下命令快速验证：
 # 回放 episode 0 检查动作是否流畅
 lerobot-replay \
   --robot.type=so101_follower \
-  --robot.port=/dev/ttyACM0 \
-  --dataset.root=./data/so101-left-pilot \
+  --robot.port=COM3 \
+  --dataset.root=./data/so101-left-final-pilot \
   --episode=0
 ```
 
@@ -271,7 +272,7 @@ lerobot-replay \
 2. release 阶段有明显停顿再张爪
 3. 无大幅抖动或异常动作
 
-只有回放验证通过后，再继续录制扩展到 33 条。
+只有回放验证通过后，再继续录制扩展到 33-50 条。
 
 ---
 
@@ -279,8 +280,8 @@ lerobot-replay \
 
 ```
 data/
-├── so101-left-pilot/     ← pilot 5-10 条
-├── so101-left33/         ← 扩展后完整左侧数据 33 条
+├── so101-left-final-pilot/ ← pilot 5-10 条
+├── so101-left-final-50/    ← 扩展后完整左侧数据 33-50 条
 ├── so101-center33/       ← 后续中侧数据（暂缓）
 └── so101-right33/        ← 后续右侧数据（暂缓）
 ```
