@@ -12,6 +12,10 @@ through the complete local loop:
 
 It is not expected to complete the task before fine-tuning.
 
+This command targets LeRobot 0.5.x. Upstream main has moved policy-based
+deployment out of `lerobot-record` and into `lerobot-rollout`; keep
+`lerobot>=0.5.1,<0.6` until this smoke test is migrated.
+
 ## Model
 
 - Hugging Face repo: `Full-Stack-Entity/so101-left-sota-pack`
