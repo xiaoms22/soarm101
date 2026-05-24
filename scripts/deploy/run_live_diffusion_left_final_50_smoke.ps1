@@ -1,5 +1,5 @@
 param(
-    [ValidateSet("scratch", "finetune", "diffusion-scratch", "diffusion-finetune", "act", "smolvla")]
+    [ValidateSet("scratch", "finetune", "diffusion-scratch", "diffusion-finetune", "act", "smolvla", "smolvla-20k", "smolvla-200k")]
     [string]$Variant = "diffusion-scratch",
     [double]$DurationS = 10,
     [int]$NumInferenceSteps = 2,
@@ -25,14 +25,20 @@ if ($Variant -eq "finetune") {
     $Variant = "diffusion-finetune"
 }
 
+if ($Variant -eq "smolvla") {
+    $Variant = "smolvla-200k"
+}
+
 if ($Variant -eq "diffusion-scratch") {
     $PolicyPath = Join-Path $RepoRoot "models\diffusion-left-final-50-scratch-10k"
 } elseif ($Variant -eq "diffusion-finetune") {
     $PolicyPath = Join-Path $RepoRoot "models\diffusion-left-final-50-from-006000-4k"
 } elseif ($Variant -eq "act") {
     $PolicyPath = Join-Path $RepoRoot "models\act-left-final-50-10k"
-} elseif ($Variant -eq "smolvla") {
+} elseif ($Variant -eq "smolvla-20k") {
     $PolicyPath = Join-Path $RepoRoot "models\smolvla-left-final-50-20k"
+} elseif ($Variant -eq "smolvla-200k") {
+    $PolicyPath = Join-Path $RepoRoot "models\smolvla-left-final-50-200k"
 } else {
     throw "Unsupported variant: $Variant"
 }

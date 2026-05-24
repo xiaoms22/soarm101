@@ -12,6 +12,13 @@ function Resolve-ProjectPython {
                 $Python = $Candidate
             }
         }
+
+        if ([string]::IsNullOrWhiteSpace($Python)) {
+            $Candidate = Join-Path $env:USERPROFILE "miniforge3\envs\lerobot-so101\python.exe"
+            if (Test-Path $Candidate) {
+                $Python = $Candidate
+            }
+        }
     }
 
     if ([string]::IsNullOrWhiteSpace($Python)) {

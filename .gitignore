@@ -5,6 +5,9 @@ models/
 # 本地采集配置（包含串口、相机编号和本机路径）
 record_config.yaml
 
+# 本地/远程部署草稿（包含私有主机别名和绝对路径）
+scripts/deploy/run_remote_smolvla_async_smoke.ps1
+
 # 含凭据的本地文件，禁止上传
 docs/laptop-ai-prompt.md
 
