@@ -4,6 +4,24 @@
 
 ---
 
+## 训练与部署记录 2026-05-19
+
+- **数据集**：`so101-left-final-50`
+- **训练模型**：SmolVLA fine-tune：`smolvla-left-final-50-200k`，200k steps，batch size 4，`rename_map` 将 `observation.images.fixed` 映射到 `camera1`，`observation.images.handeye` 映射到 `camera2`，并启用 1 路 empty camera。
+- **部署检查**：完成两轮本地 30s live smoke，日志保存在 `outputs/rollout_logs/left_final_50_smolvla-200k_smoke_20260519_004218.csv` 和 `outputs/rollout_logs/left_final_50_smolvla-200k_smoke_20260519_004610.csv`；这些 CSV 和模型权重只保留本地，不上传 GitHub。
+- **控制循环摘要**：
+  - 两轮分别记录 204 / 205 steps，实际约 6.8Hz，未达到目标 10Hz。
+  - 去掉首帧 warmup 后，p90 loop time 约 5.8-5.9ms，但存在约 2.0s 的周期性长帧，疑似 SmolVLA action chunk 生成开销。
+  - clamped actions 分别为 26/203 和 24/204，仍需人工复盘动作幅度和现场表现。
+- **脚本更新**：`scripts/deploy/run_live_diffusion_left_final_50_smoke.ps1` 增加 `smolvla-200k` 入口，并将 `smolvla` 默认别名指向 200k checkpoint。
+- **当前结论**：SmolVLA 200k checkpoint 可加载并能跑通真实控制循环，但目前只能证明部署链路可运行；还不能作为任务成功率结论。
+- **下一步计划**：
+  - [ ] 先用最佳 Diffusion checkpoint 做 10 次标准 left rollout，补齐成功率和失败模式。
+  - [ ] 再对 SmolVLA 200k 做同样的 10 次对照 rollout，重点观察长帧是否导致动作停顿。
+  - [ ] 如果继续评估 SmolVLA，需要把 chunk 长帧、clamp 频率和实际抓取/释放结果放在同一张表里复盘。
+
+---
+
 ## 训练与部署记录 2026-05-17
 
 - **数据集**：`so101-left-final-50`
@@ -15,7 +33,7 @@
 - **部署检查**：已生成多轮 `outputs/rollout_logs/left_final_50_*_smoke_*.csv` 控制日志；这些日志只保留本地，不上传 GitHub。
 - **当前结论**：
   - Diffusion Policy 仍是主线，ACT 作为对照 baseline。
-  - SmolVLA base 已作为备选方向准备，但本地未发现 `smolvla-left-final-50` 训练 checkpoint。
+  - SmolVLA base 已作为备选方向准备；当日尚未发现 `smolvla-left-final-50` 训练 checkpoint，后续 2026-05-19 已补充 200k smoke 记录。
   - 现有日志主要证明控制循环可运行；还缺少人工标注的 10 次标准 rollout 成功率表。
 - **下一步计划**：
   - [ ] 按统一协议复盘 smoke CSV 和现场表现，区分抓取失败、搬运掉落、release 失败和动作跳变。
