@@ -25,6 +25,7 @@ teleoperation -> dataset -> training -> checkpoint -> inference -> rollout -> ev
 | [本地部署 smoke test](docs/local-deployment-smoke-test.md) | 使用 Diffusion Policy 跑完整 LeRobot record/eval 流程 |
 | [实时部署 smoke test](docs/live-deployment-smoke-test.md) | 不写数据集，只测真实控制循环延迟 |
 | [采集日志](docs/collect-log.md) | 历史采集记录和问题复盘 |
+| [HIL-SERL 使用与面试口径](docs/hilserl-usage-and-interview-guide.md) | 说明 HIL-SERL 迁移路线、证据边界和后续验证指标 |
 
 ## 模型
 
