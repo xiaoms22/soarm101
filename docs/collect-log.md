@@ -4,6 +4,27 @@
 
 ---
 
+## 部署 smoke 记录 2026-05-23
+
+- **数据集**：`so101-left-final-50`
+- **检查目标**：对 ACT baseline 和 SmolVLA 200k checkpoint 做 30s live smoke，对比真实控制循环频率、长帧和动作限幅情况；本轮没有人工标注任务成功/失败，因此不能作为成功率结论。
+- **本地日志**：
+  - `outputs/rollout_logs/left_final_50_act_smoke_20260523_195456.csv`
+  - `outputs/rollout_logs/left_final_50_smolvla-200k_smoke_20260523_195641.csv`
+  - 这些 CSV 只保留本地，仍不上传 GitHub。
+- **控制循环摘要**：
+  - ACT baseline：292 rows，29.958s，约 9.71Hz；clamped actions 25/292，gripper gate 0/292；去掉首帧后 loop p50 4.76ms，p90 6.95ms，p99 227.28ms，max 243.33ms；raw max delta 43.63，sent max delta 11.90。
+  - SmolVLA 200k：169 rows，29.970s，约 5.61Hz；clamped actions 28/169，gripper gate 0/169；去掉首帧后 loop p50 6.26ms，p90 8.14ms，p99 3248.01ms，max 3482.19ms；raw max delta 14.03，sent max delta 9.33。
+- **当前结论**：
+  - ACT baseline 更接近 10Hz 控制目标，但仍存在少量限幅和长帧，需要真实 episode 成功/失败标注验证。
+  - SmolVLA 200k 仍存在多秒级 action chunk 长帧，链路可运行但实时性明显不足；继续评估时必须把长帧、clamp 频率和现场抓取/release 表现放在同一张表里复盘。
+- **下一步计划**：
+  - [ ] 仍优先完成最佳 Diffusion checkpoint 的 10 次标准 left rollout，补齐成功率和失败模式。
+  - [ ] 再用 ACT baseline 做同样的 10 次对照评估。
+  - [ ] SmolVLA 200k 只在确认长帧不会破坏动作连续性后，再进入标准 rollout 对照。
+
+---
+
 ## 训练与部署记录 2026-05-19
 
 - **数据集**：`so101-left-final-50`
