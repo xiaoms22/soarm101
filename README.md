@@ -57,6 +57,8 @@ soarm101/
 - **连接机械臂的设备**：笔记本电脑（直连 SO-ARM101）
 - **训练/开发设备**：台式机
 - **依赖框架**：[LeRobot](https://github.com/huggingface/lerobot)
+- **当前锁定版本**：`lerobot>=0.5.1,<0.6`
+- **上游迁移提示**：LeRobot `v0.6.0` 已于 2026-07-06 发布；升级时需要把 policy 部署命令切到 `lerobot-rollout`，并把视频编码参数从 `dataset.vcodec` 迁到 `dataset.rgb_encoder.vcodec`
 - **Follower**：COM3
 - **Leader**：COM4
 - **Fixed camera**：Camera 0

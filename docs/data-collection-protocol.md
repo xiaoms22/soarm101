@@ -66,7 +66,7 @@ action                   → shape [6]   — 6 个关节目标角度
 | `dataset.vcodec` | `h264` | LeRobot 0.5.x 参数；当前笔记本使用 CPU 编码，避免无 NVIDIA GPU 时触发 `nvcuda.dll` 错误 |
 | `dataset.push_to_hub` | `false` | 本地保存，不自动上传 |
 
-> LeRobot main 的 0.6 开发线已把视频编码参数迁到 `dataset.camera_encoder.vcodec`，并把 policy deployment 从 `lerobot-record` 拆到 `lerobot-rollout`。本仓库脚本在完成迁移前应继续使用 `lerobot>=0.5.1,<0.6`。
+> LeRobot `v0.6.0`（2026-07-06 发布）已把视频编码参数迁到 `dataset.rgb_encoder.vcodec`，并把 policy deployment 从 `lerobot-record` 拆到 `lerobot-rollout`。本仓库脚本在完成迁移前应继续使用 `lerobot>=0.5.1,<0.6`。
 
 ---
 

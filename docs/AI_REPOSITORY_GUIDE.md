@@ -77,7 +77,7 @@ $env:SOARM101_PYTHON = (Get-Command python).Source
 ### 关键包
 
 - **lerobot**：0.5.x（当前脚本按 v0.5.1 的 `lerobot_record` 行为编写，`requirements.txt` 暂时限制为 `<0.6`）
-- **上游 main 注意事项**：2026-05 的 LeRobot main 已加入 `lerobot-rollout`，并把 policy-based deployment 从 `lerobot-record` 拆出；升级 0.6 前必须同步更新部署脚本。
+- **上游 main / release 注意事项**：LeRobot 已在 2026-07-06 发布 `v0.6.0`。升级时必须同步处理三类 breaking changes：1) policy-based deployment 从 `lerobot-record` 拆到 `lerobot-rollout`；2) 视频编码参数从 `dataset.vcodec` 改为 `dataset.rgb_encoder.vcodec`；3) 默认 `pip install lerobot` 不再包含数据集和训练依赖，需要显式安装额外依赖（如 `lerobot[training]`）。
 - 使用 `python -m lerobot.scripts.xxx` 运行命令
 
 ---
@@ -135,7 +135,7 @@ git push origin main
 - `teleop.port: COM4` - 主臂串口
 - `dataset.fps: 10` - 录制帧率
 - `dataset.video: true` - 启用视频
-- `dataset.vcodec: h264` - LeRobot 0.5.x 的 CPU 编码配置（当前笔记本无 NVIDIA GPU；0.6/main 对应 `dataset.camera_encoder.vcodec`，迁移前不要混用）
+- `dataset.vcodec: h264` - LeRobot 0.5.x 的 CPU 编码配置（当前笔记本无 NVIDIA GPU；`v0.6.0` 对应 `dataset.rgb_encoder.vcodec`，迁移前不要混用）
 - 采集脚本传入 `--display_data=false` - 避免当前环境缺少 Rerun Viewer 可执行文件时报错
 - `robot.disable_torque_on_disconnect: false` - 防止电机锁定
 

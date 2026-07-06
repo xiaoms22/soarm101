@@ -4,6 +4,30 @@
 
 ---
 
+## GitHub / 上游检查记录 2026-07-07
+
+- **目标仓库**：`xiaoms22/soarm101`
+- **GitHub 网页检查**：
+  - `main` 最近 5 个提交仍为 `docs: record latest smoke logs`、`fix: ignore local exchange prep drafts`、`docs: add HIL-SERL usage guide`、`docs: record SmolVLA smoke and HIL-SERL plan`、`scripts: add SmolVLA 200k smoke variant`。
+  - open issues：0
+  - open pull requests：0
+  - README、`docs/AI_REPOSITORY_GUIDE.md`、`docs/data-collection-protocol.md`、`docs/collect-log.md`、`requirements.txt`、`.gitignore`、`configs/`、`scripts/collect/`、`scripts/train/`、`scripts/deploy/`、`notebooks/` 已逐项复核。
+- **上游参考检查**：
+  - `huggingface/lerobot` 于 2026-07-06 发布 `v0.6.0`。
+  - 与本项目直接相关的 breaking changes：policy deployment CLI 已拆到 `lerobot-rollout`；视频编码参数已从 `dataset.vcodec` 改为 `dataset.rgb_encoder.vcodec`；默认安装不再自带 dataset/training 依赖。
+  - `Full-Stack-Entity/so101-left-sota-pack` 数据集最后更新于 2026-04-26，公开说明仍覆盖 ACT、Diffusion Policy、SmolVLA 三条 left 分区路线，没有看到新的 left 数据协议变更。
+- **本次仓库修订**：
+  - 修正文档中对 LeRobot 0.6 视频编码参数的过时写法：`dataset.camera_encoder.vcodec` -> `dataset.rgb_encoder.vcodec`。
+  - 追加本条上游检查记录，明确当前仓库继续锁定 `lerobot>=0.5.1,<0.6`，暂不直接迁移脚本。
+- **未执行的内容**：
+  - 未上传任何 `data/`、`models/`、`outputs/`、`wandb/`、`record_config.yaml` 或本地私有草稿文件。
+  - 未改动 `scripts/collect/`、`scripts/deploy/` 实际命令，因为当前仓库仍明确锁定在 LeRobot 0.5.x；直接混入 0.6 CLI 会破坏现有流程。
+- **下一步计划**：
+  - [ ] 继续优先补齐最佳 Diffusion checkpoint 的 10 次标准 left rollout。
+  - [ ] 如需升级到 LeRobot 0.6.x，单独开一次迁移提交，连同 `requirements`、采集/部署脚本和 smoke 文档一起改，不要半迁移。
+
+---
+
 ## 部署 smoke 记录 2026-05-23
 
 - **数据集**：`so101-left-final-50`
