@@ -4,6 +4,35 @@
 
 ---
 
+## GitHub / 上游检查记录 2026-07-08
+
+- **目标仓库**：`xiaoms22/soarm101`
+- **GitHub 网页检查**：
+  - 本轮检查开始时，`main` 最新提交为 `2a00c29`（`docs: sync lerobot v0.6.0 migration notes`，2026-07-06T19:54:22Z），最近 5 个提交已复核。
+  - open issues：0
+  - open pull requests：0
+  - README、`docs/AI_REPOSITORY_GUIDE.md`、`docs/data-collection-protocol.md`、`docs/collect-log.md`、`requirements.txt`、`.gitignore`、`configs/`、`scripts/collect/`、`scripts/train/`、`scripts/deploy/`、`notebooks/` 已逐项复核；远端与本地 `origin/main` 一致。
+- **上游参考检查**：
+  - `huggingface/lerobot` 最新 release 仍为 `v0.6.0`（2026-07-06T10:41:53Z），上游 `main` 最新提交显示 `chore(dependencies): Bump lerobot to 0.6.1 (#3957)`。
+  - 与本项目直接相关的 `v0.6.0` 迁移点包括：policy deployment CLI 拆到 `lerobot-rollout`、视频编码参数迁到 `dataset.rgb_encoder.vcodec`、默认安装不再自带 dataset/training 依赖、最低 PyTorch 版本提高到 2.7、train config 中 `eval_freq` 改为 `env_eval_freq`。
+  - 近期 LeRobot issue/PR 检查未发现需要立即修改本仓库 0.5.x 脚本的 Diffusion Policy、ACT、SmolVLA 或 LeRobotDataset 变更；SO-ARM101 相关新增项主要是 Hiwonder HX-30HM servo 支持和 teleoperator 扩展，暂不影响当前 COM3/COM4 leader-follower 采集流程。
+  - `Full-Stack-Entity/so101-left-sota-pack` 数据集最后更新仍为 2026-04-26，标签仍覆盖 ACT、Diffusion Policy、SmolVLA、so101、real-robot，未看到新的 left 协议变更。
+- **本地检查**：
+  - `data/`、`models/`、`outputs/` 自上次运行后没有新文件；现有数据、模型权重、rollout CSV、`record_config.yaml` 和私有草稿继续保持 ignored，不纳入 GitHub。
+  - 自动化 shell 当前默认 `python` 是 `C:\Python314\python.exe`，未设置 `SOARM101_PYTHON`；真实采集仍应按 AI 指南先激活 `lerobot-so101` 环境并设置 `SOARM101_PYTHON`。
+- **本次仓库修订**：
+  - 补充 `docs/AI_REPOSITORY_GUIDE.md` 中 LeRobot `v0.6.0` 迁移注意事项，记录上游 `main` 已出现 `0.6.1` bump 但本仓库仍锁定 `<0.6`。
+  - 修正 `docs/pickup-putdown-hilserl-task-steps.md` 中笼统的 camera encoder 说明，明确 0.6 迁移目标参数为 `dataset.rgb_encoder.vcodec`。
+  - 追加本条上游检查记录。
+- **未执行的内容**：
+  - 未上传任何 `data/`、`models/`、`outputs/`、`wandb/`、`record_config.yaml`、私有草稿或未确认可公开的日志。
+  - 未修改 `requirements.txt` 或采集/部署脚本，因为当前项目仍按 LeRobot 0.5.x 运行；直接混入 0.6/0.6.1 CLI 会破坏既有流程。
+- **下一步计划**：
+  - [ ] 继续优先完成最佳 Diffusion checkpoint 的 10 次标准 left rollout，补齐成功率和失败模式。
+  - [ ] 若准备迁移到 LeRobot 0.6.x，单独创建迁移分支，同时修改依赖、采集命令、部署命令、训练 config 和 smoke 文档，并做真机 smoke 验证。
+
+---
+
 ## GitHub / 上游检查记录 2026-07-07
 
 - **目标仓库**：`xiaoms22/soarm101`

@@ -79,7 +79,7 @@ Pick up object and Put down in box
 
 - `dataset.fps=10`：训练数据频率。
 - `dataset.video=true`：图像以视频形式存储。
-- `dataset.vcodec=h264`：LeRobot 0.5.x 参数，当前笔记本使用 CPU 编码，避免无 NVIDIA GPU 时触发 `nvcuda.dll` 错误；升级 LeRobot main/0.6 前需要同步迁移到新的 camera encoder 配置。
+- `dataset.vcodec=h264`：LeRobot 0.5.x 参数，当前笔记本使用 CPU 编码，避免无 NVIDIA GPU 时触发 `nvcuda.dll` 错误；升级 LeRobot main/0.6 前需要同步迁移到 `dataset.rgb_encoder.vcodec`。
 - `robot.disable_torque_on_disconnect=false`：避免断开后电机锁定。
 
 ## 3. 真机任务执行步骤

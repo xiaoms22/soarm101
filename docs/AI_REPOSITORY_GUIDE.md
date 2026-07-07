@@ -77,7 +77,7 @@ $env:SOARM101_PYTHON = (Get-Command python).Source
 ### 关键包
 
 - **lerobot**：0.5.x（当前脚本按 v0.5.1 的 `lerobot_record` 行为编写，`requirements.txt` 暂时限制为 `<0.6`）
-- **上游 main / release 注意事项**：LeRobot 已在 2026-07-06 发布 `v0.6.0`。升级时必须同步处理三类 breaking changes：1) policy-based deployment 从 `lerobot-record` 拆到 `lerobot-rollout`；2) 视频编码参数从 `dataset.vcodec` 改为 `dataset.rgb_encoder.vcodec`；3) 默认 `pip install lerobot` 不再包含数据集和训练依赖，需要显式安装额外依赖（如 `lerobot[training]`）。
+- **上游 main / release 注意事项**：LeRobot 已在 2026-07-06 发布 `v0.6.0`，上游 `main` 在发布后已出现 `0.6.1` 版本 bump（截至 2026-07-08 尚未看到对应 release tag）。升级时必须同步处理：1) policy-based deployment 从 `lerobot-record` 拆到 `lerobot-rollout`；2) 视频编码参数从 `dataset.vcodec` 改为 `dataset.rgb_encoder.vcodec`；3) 默认 `pip install lerobot` 不再包含数据集和训练依赖，需要显式安装额外依赖（如 `lerobot[training]`）；4) 最低 PyTorch 版本提高到 2.7；5) train config 中 `eval_freq` 改为 `env_eval_freq`。迁移前继续保持 `requirements.txt` 的 `<0.6` 锁定。
 - 使用 `python -m lerobot.scripts.xxx` 运行命令
 
 ---
